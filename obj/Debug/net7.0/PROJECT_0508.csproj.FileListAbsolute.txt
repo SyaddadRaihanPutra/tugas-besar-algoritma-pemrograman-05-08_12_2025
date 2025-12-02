@@ -1,0 +1,15 @@
+D:\Telkomuniversity\PROJECT_0508\bin\Debug\net7.0\PROJECT_0508.exe
+D:\Telkomuniversity\PROJECT_0508\bin\Debug\net7.0\PROJECT_0508.deps.json
+D:\Telkomuniversity\PROJECT_0508\bin\Debug\net7.0\PROJECT_0508.runtimeconfig.json
+D:\Telkomuniversity\PROJECT_0508\bin\Debug\net7.0\PROJECT_0508.dll
+D:\Telkomuniversity\PROJECT_0508\bin\Debug\net7.0\PROJECT_0508.pdb
+D:\Telkomuniversity\PROJECT_0508\obj\Debug\net7.0\PROJECT_0508.csproj.AssemblyReference.cache
+D:\Telkomuniversity\PROJECT_0508\obj\Debug\net7.0\PROJECT_0508.GeneratedMSBuildEditorConfig.editorconfig
+D:\Telkomuniversity\PROJECT_0508\obj\Debug\net7.0\PROJECT_0508.AssemblyInfoInputs.cache
+D:\Telkomuniversity\PROJECT_0508\obj\Debug\net7.0\PROJECT_0508.AssemblyInfo.cs
+D:\Telkomuniversity\PROJECT_0508\obj\Debug\net7.0\PROJECT_0508.csproj.CoreCompileInputs.cache
+D:\Telkomuniversity\PROJECT_0508\obj\Debug\net7.0\PROJECT_0508.dll
+D:\Telkomuniversity\PROJECT_0508\obj\Debug\net7.0\refint\PROJECT_0508.dll
+D:\Telkomuniversity\PROJECT_0508\obj\Debug\net7.0\PROJECT_0508.pdb
+D:\Telkomuniversity\PROJECT_0508\obj\Debug\net7.0\PROJECT_0508.genruntimeconfig.cache
+D:\Telkomuniversity\PROJECT_0508\obj\Debug\net7.0\ref\PROJECT_0508.dll
