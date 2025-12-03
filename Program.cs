@@ -40,41 +40,26 @@ class Program
                 int pilihan_0508 = int.Parse(Console.ReadLine()!);
 
                 // Cek pilihan pengguna dan jalankan fungsi yang sesuai
-                if (pilihan_0508 == 1)
-                {
+                if (pilihan_0508 == 1)                
                     TambahFilm(); // Jalankan fungsi menambah film
-                }
                 else if (pilihan_0508 == 2)
-                {
                     LihatDataFilm(); // Jalankan fungsi melihat daftar film
-                }
                 else if (pilihan_0508 == 3)
-                {
                     UpdateFilm(); // Jalankan fungsi mengubah data film
-                }
                 else if (pilihan_0508 == 4)
-                {
                     HapusFilm(); // Jalankan fungsi menghapus film
-                }
                 else if (pilihan_0508 == 5)
-                {
                     CariFilm(); // Jalankan fungsi mencari film
-                }
                 else if (pilihan_0508 == 6)
-                {
                     FilterGenre(); // Jalankan fungsi filter berdasarkan genre
-                }
                 else if (pilihan_0508 == 0)
                 {
                     Console.WriteLine("Keluar... Terima kasih.");
                     break; // Keluar dari loop utama dan akhiri program
                 }
                 else
-                {
                     // Tampilkan pesan jika pilihan tidak valid
                     Console.WriteLine("Pilihan_0508 tidak valid.");
-                }
-
                 // Beri waktu untuk melihat hasil sebelum kembali ke menu
                 Console.WriteLine("\nTekan Enter untuk kembali ke menu...");
                 Console.ReadLine();
