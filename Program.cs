@@ -395,16 +395,26 @@ class Program
                     {
                         // Tampilkan error jika tahun tidak valid
                         Console.WriteLine("Tahun rilis tidak valid. Masukkan tahun yang benar (misalnya: 1999).");
-                        Console.Write("Masukkan Tahun Rilis Baru: ");
+                        Console.Write("Masukkan Tahun Rilis Baru (kosongkan untuk tidak mengubah): ");
                         tahunRilisInput_0508 = Console.ReadLine()!;
+                        // Jika user langsung enter → keluar tanpa mengubah
+                        if (string.IsNullOrWhiteSpace(tahunRilisInput_0508))
+                        {
+                            break;
+                        }
                     }
                 }
                 catch (FormatException)
                 {
                     // Tampilkan error jika tahun tidak valid
                     Console.WriteLine("Tahun rilis tidak valid. Masukkan tahun yang benar (misalnya: 1999).");
-                    Console.Write("Masukkan Tahun Rilis Baru: ");
+                    Console.Write("Masukkan Tahun Rilis Baru (kosongkan untuk tidak mengubah): ");
                     tahunRilisInput_0508 = Console.ReadLine()!;
+                    // Jika user langsung enter → keluar tanpa mengubah
+                    if (string.IsNullOrWhiteSpace(tahunRilisInput_0508))
+                    {
+                        break;
+                    }
                 }
             }
         }
