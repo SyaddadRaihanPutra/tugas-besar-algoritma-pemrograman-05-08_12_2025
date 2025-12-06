@@ -7,7 +7,7 @@ class Program
     static List<string> films_0508 = new List<string>();
 
     // Daftar genre film yang tersedia untuk dipilih pengguna
-    static List<string> genreFilm_0508_0508 = new List<string>
+    static List<string> genreFilm_0508 = new List<string>
     {
         "Aksi", "Komedi", "Drama", "Horror", "Romantis", "Sci-Fi", "Dokumenter"
     };
@@ -40,7 +40,7 @@ class Program
                 int pilihan_0508 = int.Parse(Console.ReadLine()!);
 
                 // Cek pilihan pengguna dan jalankan fungsi yang sesuai
-                if (pilihan_0508 == 1)                
+                if (pilihan_0508 == 1)
                     TambahFilm(); // Jalankan fungsi menambah film
                 else if (pilihan_0508 == 2)
                     LihatDataFilm(); // Jalankan fungsi melihat daftar film
@@ -101,44 +101,44 @@ class Program
         // ===== INPUT GENRE FILM =====
         Console.WriteLine("\n=== Pilih Genre ===");
         // Tampilkan daftar genre yang tersedia dengan nomor
-        for (int i = 0; i < genreFilm_0508_0508.Count; i++)
+        for (int i = 0; i < genreFilm_0508.Count; i++)
         {
-            Console.WriteLine($"{i + 1}. {genreFilm_0508_0508[i]}");
+            Console.WriteLine($"{i + 1}. {genreFilm_0508[i]}");
         }
 
-        Console.Write("Ketik Nomor_0508 Genre: ");
+        Console.Write("Ketik Nomor Genre: ");
         // Baca input nomor genre dari pengguna
         string genreInput_0508 = Console.ReadLine()!;
-        int nomor_0508Genre_0508 = -1; // Inisialisasi dengan nilai -1 (invalid)
-        string genreFilm_0508 = ""; // Variabel untuk menyimpan genre yang dipilih
+        int nomorGenre_0508 = -1; // Inisialisasi dengan nilai -1 (invalid)
+        string genre_0508 = ""; // Variabel untuk menyimpan genre yang dipilih
 
         // Validasi input genre berulang sampai valid
-        while (nomor_0508Genre_0508 < 1 || nomor_0508Genre_0508 > genreFilm_0508_0508.Count)
+        while (nomorGenre_0508 < 1 || nomorGenre_0508 > genreFilm_0508.Count)
         {
             try
             {
                 // Coba konversi input menjadi integer
-                nomor_0508Genre_0508 = int.Parse(genreInput_0508);
+                nomorGenre_0508 = int.Parse(genreInput_0508);
                 // Cek apakah nomor genre valid (antara 1 dan jumlah genre)
-                if (nomor_0508Genre_0508 >= 1 && nomor_0508Genre_0508 <= genreFilm_0508_0508.Count)
+                if (nomorGenre_0508 >= 1 && nomorGenre_0508 <= genreFilm_0508.Count)
                 {
                     // Ambil genre dari list berdasarkan nomor (dikurangi 1 karena index mulai dari 0)
-                    genreFilm_0508 = genreFilm_0508_0508[nomor_0508Genre_0508 - 1];
+                    genre_0508 = genreFilm_0508[nomorGenre_0508 - 1];
                     break; // Keluar dari loop jika valid
                 }
                 else
                 {
                     // Tampilkan error jika nomor di luar range
-                    Console.WriteLine("Pilihan_0508 genre tidak valid. Silakan pilih nomor_0508 genre yang benar.");
-                    Console.Write("Ketik Nomor_0508 Genre: ");
+                    Console.WriteLine("Pilihan genre tidak valid. Silakan pilih nomor genre yang benar.");
+                    Console.Write("Ketik Nomor Genre: ");
                     genreInput_0508 = Console.ReadLine()!;
                 }
             }
             catch (FormatException)
             {
                 // Tangkap error jika input bukan angka
-                Console.WriteLine("Pilihan_0508 genre tidak valid. Silakan pilih nomor_0508 genre yang benar.");
-                Console.Write("Ketik Nomor_0508 Genre: ");
+                Console.WriteLine("Pilihan genre tidak valid. Silakan pilih nomor genre yang benar.");
+                Console.Write("Ketik Nomor Genre: ");
                 genreInput_0508 = Console.ReadLine()!;
             }
         }
@@ -185,11 +185,11 @@ class Program
 
         // ===== TAMBAHKAN FILM KE KOLEKSI =====
         // Buat string dengan format: "Judul: ..., Genre: ..., Tahun: ..."
-        string filmBaru_0508 = $"Judul: {judulFilm_0508}, Genre: {genreFilm_0508}, Tahun: {tahunRilis_0508}";
+        string filmBaru_0508 = $"Judul: {judulFilm_0508}, Genre: {genre_0508}, Tahun: {tahunRilis_0508}";
         // Tambahkan film baru ke list films_0508
         films_0508.Add(filmBaru_0508);
         // Tampilkan pesan sukses
-        Console.WriteLine($"Film '{judulFilm_0508}' ({genreFilm_0508}, {tahunRilis_0508}) berhasil ditambahkan.");
+        Console.WriteLine($"Film '{judulFilm_0508}' ({genre_0508}, {tahunRilis_0508}) berhasil ditambahkan.");
         Console.WriteLine("=====================================");
     }
 
@@ -202,14 +202,14 @@ class Program
         Console.WriteLine("=======================================");
         Console.WriteLine("==|          (DAFTAR FILM)          |==");
         Console.WriteLine("=======================================");
-        
+
         // Cek apakah list film kosong
         if (films_0508.Count == 0)
         {
             Console.WriteLine("Belum ada film.");
             return; // Keluar dari fungsi jika tidak ada film
         }
-        
+
         // Inisialisasi nomor urut untuk ditampilkan
         int nomor_0508 = 1;
         // Loop untuk menampilkan setiap film di list
@@ -277,8 +277,8 @@ class Program
         // ===== UPDATE JUDUL =====
         Console.Write("Masukkan Judul Baru (kosongkan untuk tidak mengubah): ");
         string judulBaru_0508 = Console.ReadLine()!;
-        // Jika input tidak kosong, update judul
-        if (judulBaru_0508 != null && judulBaru_0508 != "")
+        // Jika input tidak kosong dan tidak hanya spasi, update judul
+        if (judulBaru_0508 != null && judulBaru_0508.Trim() != "")
         {
             // Pisahkan string film berdasarkan koma
             string[] bagianFilm = filmYangDipilih_0508.Split(',');
@@ -289,31 +289,73 @@ class Program
         }
 
         // ===== UPDATE GENRE =====
-        Console.Write("Masukkan Genre Baru (kosongkan untuk tidak mengubah): ");
-        string genreBaru_0508 = Console.ReadLine()!;
-        // Jika input tidak kosong dan tidak hanya spasi, update genre
-        if (!string.IsNullOrWhiteSpace(genreBaru_0508))
+        Console.WriteLine("\n=== Pilih Genre Baru ===");
+        // Tampilkan daftar genre yang tersedia dengan nomor
+        for (int i = 0; i < genreFilm_0508.Count; i++)
         {
-            // Pisahkan string film berdasarkan koma
-            string[] bagianFilm = filmYangDipilih_0508.Split(',');
-            // Ganti bagian genre dengan genre baru
-            bagianFilm[1] = $"Genre: {genreBaru_0508}";
-            // Gabungkan kembali string yang sudah dipisah
-            filmYangDipilih_0508 = string.Join(", ", bagianFilm);
+            Console.WriteLine($"{i + 1}. {genreFilm_0508[i]}");
+        }
+        Console.WriteLine("0. Tidak mengubah genre");
+
+        Console.Write("Ketik Nomor Genre (0 untuk tidak mengubah): ");
+        string genreInput_0508 = Console.ReadLine()!;
+        int nomorGenre_0508 = -1;
+
+        // Validasi input genre berulang sampai valid
+        while (true)
+        {
+            try
+            {
+                nomorGenre_0508 = int.Parse(genreInput_0508);
+                // Jika 0, tidak mengubah genre
+                if (nomorGenre_0508 == 0)
+                {
+                    break;
+                }
+                // Cek apakah nomor genre valid (antara 1 dan jumlah genre)
+                if (nomorGenre_0508 >= 1 && nomorGenre_0508 <= genreFilm_0508.Count)
+                {
+                    // Ambil genre dari list berdasarkan nomor
+                    string genreBaru_0508 = genreFilm_0508[nomorGenre_0508 - 1];
+                    // Pisahkan string film berdasarkan koma
+                    string[] bagianFilm = filmYangDipilih_0508.Split(',');
+                    // Ganti bagian genre dengan genre baru
+                    bagianFilm[1] = $"Genre: {genreBaru_0508}";
+                    // Gabungkan kembali string yang sudah dipisah
+                    filmYangDipilih_0508 = string.Join(", ", bagianFilm);
+                    break;
+                }
+                else
+                {
+                    // Tampilkan error jika nomor di luar range
+                    Console.WriteLine("Pilihan genre tidak valid. Silakan pilih nomor genre yang benar.");
+                    Console.Write("Ketik Nomor Genre (0 untuk tidak mengubah): ");
+                    genreInput_0508 = Console.ReadLine()!;
+                }
+            }
+            catch (FormatException)
+            {
+                // Tangkap error jika input bukan angka
+                Console.WriteLine("Pilihan genre tidak valid. Silakan pilih nomor genre yang benar.");
+                Console.Write("Ketik Nomor Genre (0 untuk tidak mengubah): ");
+                genreInput_0508 = Console.ReadLine()!;
+            }
         }
 
         // ===== UPDATE TAHUN RILIS =====
         Console.Write("Masukkan Tahun Rilis Baru (kosongkan untuk tidak mengubah): ");
         string tahunRilisInput_0508 = Console.ReadLine()!;
-        int tahunRilis_0508 = 0;
 
         // Jika input tidak kosong dan tidak hanya spasi, update tahun
-        if (!string.IsNullOrWhiteSpace(tahunRilisInput_0508))
+        if (tahunRilisInput_0508 != null && tahunRilisInput_0508.Trim() != "")
         {
             try
             {
-                // Coba konversi input menjadi integer
-                tahunRilis_0508 = int.Parse(tahunRilisInput_0508);
+            // Coba konversi input menjadi integer
+            int tahunRilis_0508 = int.Parse(tahunRilisInput_0508);
+            // Validasi tahun
+            if (tahunRilis_0508 > 1800 && tahunRilis_0508 <= DateTime.Now.Year)
+            {
                 // Pisahkan string film berdasarkan koma
                 string[] bagianFilm = filmYangDipilih_0508.Split(',');
                 // Ganti bagian tahun dengan tahun baru
@@ -321,10 +363,16 @@ class Program
                 // Gabungkan kembali string yang sudah dipisah
                 filmYangDipilih_0508 = string.Join(", ", bagianFilm);
             }
-            catch (Exception)
+            else
             {
                 // Tampilkan error jika tahun tidak valid
                 Console.WriteLine("Tahun rilis tidak valid. Masukkan tahun yang benar (misalnya: 1999).");
+            }
+            }
+            catch (FormatException)
+            {
+            // Tampilkan error jika tahun tidak valid
+            Console.WriteLine("Tahun rilis tidak valid. Masukkan tahun yang benar (misalnya: 1999).");
             }
         }
 
@@ -332,7 +380,7 @@ class Program
         // Update film di list dengan data yang sudah dimodifikasi
         films_0508[nomorFilm_0508 - 1] = filmYangDipilih_0508;
         Console.WriteLine("Data film berhasil diupdate.");
-    }
+        }
 
     static void HapusFilm()
     {
@@ -355,7 +403,7 @@ class Program
         LihatDataFilm();
 
         // Minta pengguna memilih nomor film yang akan dihapus
-        Console.Write("Pilih nomor_0508 film yang akan dihapus: ");
+        Console.Write("Pilih nomor film yang akan dihapus: ");
         // Gunakan TryParse untuk konversi yang lebih aman (menghindari exception)
         // Jika konversi gagal atau nomor tidak valid, tampilkan error dan keluar
         if (!int.TryParse(Console.ReadLine()!, out int nomor_0508Film) || nomor_0508Film < 1 || nomor_0508Film > films_0508.Count)
@@ -409,11 +457,11 @@ class Program
         Console.WriteLine("Daftar genre:");
 
         // ===== TAMPILKAN DAFTAR GENRE =====
-        // Loop untuk menampilkan semua genre dari list genreFilm_0508_0508
-        for (int i = 0; i < genreFilm_0508_0508.Count; i++)
+        // Loop untuk menampilkan semua genre dari list genreFilm_0508
+        for (int i = 0; i < genreFilm_0508.Count; i++)
         {
             // Tampilkan setiap genre dengan nomor urut
-            Console.WriteLine($"{i + 1}. {genreFilm_0508_0508[i]}");
+            Console.WriteLine($"{i + 1}. {genreFilm_0508[i]}");
         }
 
         // Minta pengguna memilih nomor genre
@@ -422,14 +470,14 @@ class Program
         int nomorGenre = -1; // Inisialisasi dengan nilai -1 (invalid)
 
         // Validasi input nomor genre berulang sampai valid
-        while (nomorGenre < 1 || nomorGenre > genreFilm_0508_0508.Count)
+        while (nomorGenre < 1 || nomorGenre > genreFilm_0508.Count)
         {
             try
             {
                 // Coba konversi input menjadi integer
                 nomorGenre = int.Parse(inputNomorGenre);
                 // Cek apakah nomor genre valid
-                if (nomorGenre < 1 || nomorGenre > genreFilm_0508_0508.Count)
+                if (nomorGenre < 1 || nomorGenre > genreFilm_0508.Count)
                 {
                     // Tampilkan error jika nomor tidak valid
                     Console.WriteLine("Nomor genre tidak valid. Pilih nomor genre yang sesuai.");
@@ -448,7 +496,7 @@ class Program
 
         // ===== AMBIL GENRE YANG DIPILIH =====
         // Ambil genre dari list berdasarkan nomor yang dipilih (kurangi 1 karena index mulai dari 0)
-        string genre = genreFilm_0508_0508[nomorGenre - 1];
+        string genre = genreFilm_0508[nomorGenre - 1];
 
         // ===== CARI FILM BERDASARKAN GENRE =====
         // Cari semua film yang mengandung genre yang dipilih (case-insensitive)

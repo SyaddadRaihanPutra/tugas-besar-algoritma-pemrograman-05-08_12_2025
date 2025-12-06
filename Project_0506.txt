@@ -1,0 +1,243 @@
+PROGRAM FilmCollectionManagement
+
+DECLARATION:
+    films_0508 ← Empty List to store film data
+    genreFilm_0508_0508 ← ["Aksi", "Komedi", "Drama", "Horror", "Romantis", "Sci-Fi", "Dokumenter"]
+
+FUNCTION Main():
+    TRY:
+        WHILE true:
+            CLEAR screen
+            DISPLAY "======================================="
+            DISPLAY "==| APLIKASI MANAJEMEN KOLEKSI FILM |=="
+            DISPLAY "======================================="
+            DISPLAY "||   PILIH MENU                      ||"
+            DISPLAY "||   1. Tambah Film                  ||"
+            DISPLAY "||   2. Lihat Data Film              ||"
+            DISPLAY "||   3. Update Data Film             ||"
+            DISPLAY "||   4. Hapus Data Film              ||"
+            DISPLAY "||   5. Cari Film (judul)            ||"
+            DISPLAY "||   6. Filter berdasarkan Genre     ||"
+            DISPLAY "||   0. Keluar                       ||"
+            DISPLAY "======================================="
+            READ pilihan_0508 from user (convert to integer)
+            
+            IF pilihan_0508 = 1 THEN
+                TambahFilm()
+            ELSE IF pilihan_0508 = 2 THEN
+                LihatDataFilm()
+            ELSE IF pilihan_0508 = 3 THEN
+                UpdateFilm()
+            ELSE IF pilihan_0508 = 4 THEN
+                HapusFilm()
+            ELSE IF pilihan_0508 = 5 THEN
+                CariFilm()
+            ELSE IF pilihan_0508 = 6 THEN
+                FilterGenre()
+            ELSE IF pilihan_0508 = 0 THEN
+                DISPLAY "Keluar... Terima kasih."
+                BREAK from loop
+            ELSE:
+                DISPLAY "Pilihan_0508 tidak valid."
+            
+            DISPLAY "Tekan Enter untuk kembali ke menu..."
+            READ input
+    CATCH error:
+        DISPLAY "Terjadi kesalahan dalam aplikasi."
+
+FUNCTION TambahFilm():
+    CLEAR screen
+    DISPLAY header "APLIKASI MANAJEMEN KOLEKSI FILM"
+    DISPLAY "(TAMBAH ENTRI FILM BARU)"
+    
+    // INPUT JUDUL FILM
+    REPEAT:
+        READ judulFilm_0508
+        IF judulFilm_0508 is empty or whitespace only THEN
+            DISPLAY "Judul film tidak boleh kosong."
+    UNTIL judulFilm_0508 is valid
+    
+    // INPUT GENRE
+    DISPLAY "=== Pilih Genre ==="
+    FOR i ← 0 to genreFilm_0508_0508.count - 1:
+        DISPLAY (i + 1) + ". " + genreFilm_0508_0508[i]
+    
+    REPEAT:
+        READ genreInput_0508
+        TRY:
+            nomor_0508Genre_0508 ← convert genreInput_0508 to integer
+            IF nomor_0508Genre_0508 >= 1 AND nomor_0508Genre_0508 <= genreFilm_0508_0508.count THEN
+                genreFilm_0508 ← genreFilm_0508_0508[nomor_0508Genre_0508 - 1]
+                BREAK from loop
+            ELSE:
+                DISPLAY "Pilihan_0508 genre tidak valid. Silakan pilih nomor_0508 genre yang benar."
+        CATCH FormatException:
+            DISPLAY "Pilihan_0508 genre tidak valid. Silakan pilih nomor_0508 genre yang benar."
+    UNTIL valid
+    
+    // INPUT TAHUN RILIS
+    DISPLAY "=== Masukkan Tahun Rilis ==="
+    REPEAT:
+        READ tahunInput_0508
+        TRY:
+            tahunRilis_0508 ← convert tahunInput_0508 to integer
+            IF tahunRilis_0508 > 1800 AND tahunRilis_0508 <= current_year THEN
+                BREAK from loop
+            ELSE:
+                DISPLAY "Tahun rilis tidak valid. Masukkan tahun yang benar (misalnya: 1999)."
+        CATCH FormatException:
+            DISPLAY "Tahun rilis tidak valid. Masukkan tahun yang benar (misalnya: 1999)."
+    UNTIL valid
+    
+    // ADD FILM TO COLLECTION
+    filmBaru_0508 ← "Judul: " + judulFilm_0508 + ", Genre: " + genreFilm_0508 + ", Tahun: " + tahunRilis_0508
+    films_0508.ADD(filmBaru_0508)
+    DISPLAY "Film '" + judulFilm_0508 + "' (" + genreFilm_0508 + ", " + tahunRilis_0508 + ") berhasil ditambahkan."
+
+FUNCTION LihatDataFilm():
+    CLEAR screen
+    DISPLAY header "APLIKASI MANAJEMEN KOLEKSI FILM"
+    DISPLAY "(DAFTAR FILM)"
+    
+    IF films_0508.count = 0 THEN
+        DISPLAY "Belum ada film."
+        RETURN
+    
+    nomor_0508 ← 1
+    FOREACH film_0508 IN films_0508:
+        DISPLAY nomor_0508 + ". " + film_0508
+        nomor_0508 ← nomor_0508 + 1
+
+FUNCTION UpdateFilm():
+    CLEAR screen
+    DISPLAY header "APLIKASI MANAJEMEN KOLEKSI FILM"
+    DISPLAY "(UPDATE ENTRI FILM)"
+    
+    IF films_0508.count = 0 THEN
+        DISPLAY "Belum ada film."
+        RETURN
+    
+    LihatDataFilm()
+    
+    DISPLAY "Pilih nomor film yang akan diupdate: "
+    READ inputNomorFilm_0508
+    nomorFilm_0508 ← -1
+    
+    REPEAT:
+        TRY:
+            nomorFilm_0508 ← convert inputNomorFilm_0508 to integer
+            IF nomorFilm_0508 < 1 OR nomorFilm_0508 > films_0508.count THEN
+                DISPLAY "Nomor film tidak valid. Pilih nomor yang sesuai."
+                READ inputNomorFilm_0508
+            ELSE:
+                BREAK from loop
+        CATCH:
+            DISPLAY "Input tidak valid. Masukkan angka yang benar."
+            READ inputNomorFilm_0508
+    UNTIL valid
+    
+    filmYangDipilih_0508 ← films_0508[nomorFilm_0508 - 1]
+    DISPLAY "Film yang dipilih: " + filmYangDipilih_0508
+    
+    // UPDATE JUDUL
+    READ judulBaru_0508 (with prompt "Masukkan Judul Baru (kosongkan untuk tidak mengubah): ")
+    IF judulBaru_0508 not empty THEN
+        bagianFilm ← filmYangDipilih_0508.SPLIT(",")
+        bagianFilm[0] ← "Judul: " + judulBaru_0508
+        filmYangDipilih_0508 ← bagianFilm.JOIN(", ")
+    
+    // UPDATE GENRE
+    READ genreBaru_0508 (with prompt "Masukkan Genre Baru (kosongkan untuk tidak mengubah): ")
+    IF genreBaru_0508 not whitespace THEN
+        bagianFilm ← filmYangDipilih_0508.SPLIT(",")
+        bagianFilm[1] ← "Genre: " + genreBaru_0508
+        filmYangDipilih_0508 ← bagianFilm.JOIN(", ")
+    
+    // UPDATE TAHUN RILIS
+    READ tahunRilisInput_0508 (with prompt "Masukkan Tahun Rilis Baru (kosongkan untuk tidak mengubah): ")
+    IF tahunRilisInput_0508 not whitespace THEN
+        TRY:
+            tahunRilis_0508 ← convert tahunRilisInput_0508 to integer
+            bagianFilm ← filmYangDipilih_0508.SPLIT(",")
+            bagianFilm[2] ← "Tahun: " + tahunRilis_0508
+            filmYangDipilih_0508 ← bagianFilm.JOIN(", ")
+        CATCH:
+            DISPLAY "Tahun rilis tidak valid. Masukkan tahun yang benar (misalnya: 1999)."
+    
+    // SAVE CHANGES
+    films_0508[nomorFilm_0508 - 1] ← filmYangDipilih_0508
+    DISPLAY "Data film berhasil diupdate."
+
+FUNCTION HapusFilm():
+    CLEAR screen
+    DISPLAY header "APLIKASI MANAJEMEN KOLEKSI FILM"
+    DISPLAY "(HAPUS FILM)"
+    
+    IF films_0508.count = 0 THEN
+        DISPLAY "Belum ada film."
+        RETURN
+    
+    LihatDataFilm()
+    
+    DISPLAY "Pilih nomor film yang akan dihapus: "
+    READ inputNomorFilm
+    
+    IF convert inputNomorFilm to integer FAILS OR inputNomorFilm < 1 OR inputNomorFilm > films_0508.count THEN
+        DISPLAY "Pilihan_0508 tidak valid."
+        RETURN
+    
+    nomorFilm ← convert inputNomorFilm to integer
+    filmYangDihapus ← films_0508[nomorFilm - 1]
+    films_0508.REMOVE_AT(nomorFilm - 1)
+    
+    DISPLAY "Film '" + filmYangDihapus + "' berhasil dihapus."
+
+FUNCTION CariFilm():
+    READ kataKunci (with prompt "Masukkan kata kunci judul untuk mencari: ")
+    kataKunci ← kataKunci.TRIM()
+    
+    hasilPencarian ← films_0508.FIND_ALL(film contains kataKunci, case-insensitive)
+    
+    DISPLAY "Hasil pencarian (" + hasilPencarian.count + "):"
+    
+    IF hasilPencarian.count = 0 THEN
+        DISPLAY "Tidak ditemukan film yang sesuai dengan kata kunci."
+        RETURN
+    
+    FOR urutanFilm ← 0 to hasilPencarian.count - 1:
+        DISPLAY (urutanFilm + 1) + ". " + hasilPencarian[urutanFilm]
+
+FUNCTION FilterGenre():
+    DISPLAY "== Filter berdasarkan Genre =="
+    DISPLAY "Daftar genre:"
+    
+    FOR i ← 0 to genreFilm_0508_0508.count - 1:
+        DISPLAY (i + 1) + ". " + genreFilm_0508_0508[i]
+    
+    READ inputNomorGenre (with prompt "Pilih nomor genre: ")
+    nomorGenre ← -1
+    
+    REPEAT:
+        TRY:
+            nomorGenre ← convert inputNomorGenre to integer
+            IF nomorGenre < 1 OR nomorGenre > genreFilm_0508_0508.count THEN
+                DISPLAY "Nomor genre tidak valid. Pilih nomor genre yang sesuai."
+                READ inputNomorGenre
+            ELSE:
+                BREAK from loop
+        CATCH FormatException:
+            DISPLAY "Input tidak valid. Masukkan angka yang benar."
+            READ inputNomorGenre
+    UNTIL valid
+    
+    genre ← genreFilm_0508_0508[nomorGenre - 1]
+    
+    hasilPencarian ← films_0508.FIND_ALL(film contains genre, case-insensitive)
+    
+    DISPLAY "Film dengan genre '" + genre + "' (" + hasilPencarian.count + "):"
+    
+    IF hasilPencarian.count = 0 THEN
+        DISPLAY "Tidak ada film."
+    ELSE:
+        FOR i ← 0 to hasilPencarian.count - 1:
+            DISPLAY (i + 1) + ". " + hasilPencarian[i]
