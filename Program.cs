@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+    KELOMPOK 05_08
+    Nama Anggota Kelompok:
+    1. Syaddad Raihan Putra (102042500079)
+    2. Faishal Hafizh Alfario (102042500001)
+    3. Qonita Najiah (102042530016)
+    4. Panji Dwi Bayu Prakoso (102042500039)
+*/
+
+using System;
 using System.Collections.Generic;
 
 class Program
