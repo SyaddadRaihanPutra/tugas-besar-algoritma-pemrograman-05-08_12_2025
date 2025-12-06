@@ -277,25 +277,36 @@ class Program
         // ===== UPDATE JUDUL =====
         Console.Write("Masukkan Judul Baru (kosongkan untuk tidak mengubah): ");
         string judulBaru_0508 = Console.ReadLine()!;
-        // Jika input tidak kosong dan tidak hanya spasi, update judul
+
+        // Jika input tidak kosong dan tidak hanya spasi, lakukan validasi judul
         if (!string.IsNullOrWhiteSpace(judulBaru_0508))
         {
             // Validasi judul dengan while loop
-            while (string.IsNullOrWhiteSpace(judulBaru_0508) ||
-                   judulBaru_0508 != judulBaru_0508.Trim() ||
-                   judulBaru_0508.Contains("  "))
+            while (!string.IsNullOrWhiteSpace(judulBaru_0508) &&   // tetap cek hanya jika tidak kosong
+                   (judulBaru_0508 != judulBaru_0508.Trim() ||     // ada spasi di awal/akhir
+                    judulBaru_0508.Contains("  ")))                // ada double space
             {
                 Console.WriteLine("Judul film tidak valid. Gunakan format yang benar (contoh: 'Lorem Ipsum').");
-                Console.Write("Masukkan Judul Film: ");
+                Console.Write("Masukkan Judul Film (kosongkan untuk tidak mengubah): ");
                 judulBaru_0508 = Console.ReadLine()!;
+
+                // Jika user langsung enter (kosong), keluar dari loop → tidak mengubah judul
+                if (string.IsNullOrWhiteSpace(judulBaru_0508))
+                {
+                    break;
+                }
             }
 
-            // Pisahkan string film berdasarkan koma
-            string[] bagianFilm = filmYangDipilih_0508.Split(',');
-            // Ganti bagian judul dengan judul baru
-            bagianFilm[0] = $"Judul: {judulBaru_0508}";
-            // Gabungkan kembali string yang sudah dipisah
-            filmYangDipilih_0508 = string.Join(", ", bagianFilm);
+            // Jika input valid (tidak kosong dan lolos validasi), update judul
+            if (!string.IsNullOrWhiteSpace(judulBaru_0508))
+            {
+                // Pisahkan string film berdasarkan koma
+                string[] bagianFilm = filmYangDipilih_0508.Split(',');
+                // Ganti bagian judul dengan judul baru
+                bagianFilm[0] = $"Judul: {judulBaru_0508}";
+                // Gabungkan kembali string yang sudah dipisah
+                filmYangDipilih_0508 = string.Join(", ", bagianFilm);
+            }
         }
 
         // ===== UPDATE GENRE =====
