@@ -88,10 +88,10 @@ class Program
         // Baca judul film dari pengguna
         string judulFilm_0508 = Console.ReadLine()!;
 
-        // Validasi: pastikan judul tidak kosong atau hanya spasi
-        while (judulFilm_0508 == null || judulFilm_0508.Trim() == "")
+        // Validasi: pastikan judul tidak kosong dan tidak ada spasi berlebih
+        while (string.IsNullOrWhiteSpace(judulFilm_0508) || judulFilm_0508 != judulFilm_0508.Trim() || judulFilm_0508.Contains("  "))
         {
-            Console.WriteLine("Judul film tidak boleh kosong.");
+            Console.WriteLine("Judul film tidak valid. Gunakan format yang benar (contoh: 'Lorem Ipsum').");
             Console.Write("Masukkan Judul Film: ");
             judulFilm_0508 = Console.ReadLine()!;
         }
@@ -223,7 +223,7 @@ class Program
     static void UpdateFilm()
     {
         Console.Clear(); // Bersihkan layar
-        // Tampilkan header bagian update film
+                         // Tampilkan header bagian update film
         Console.WriteLine("=======================================");
         Console.WriteLine("==| APLIKASI MANAJEMEN KOLEKSI FILM |==");
         Console.WriteLine("=======================================");
@@ -278,8 +278,18 @@ class Program
         Console.Write("Masukkan Judul Baru (kosongkan untuk tidak mengubah): ");
         string judulBaru_0508 = Console.ReadLine()!;
         // Jika input tidak kosong dan tidak hanya spasi, update judul
-        if (judulBaru_0508 != null && judulBaru_0508.Trim() != "")
+        if (!string.IsNullOrWhiteSpace(judulBaru_0508))
         {
+            // Validasi judul dengan while loop
+            while (string.IsNullOrWhiteSpace(judulBaru_0508) ||
+                   judulBaru_0508 != judulBaru_0508.Trim() ||
+                   judulBaru_0508.Contains("  "))
+            {
+                Console.WriteLine("Judul film tidak valid. Gunakan format yang benar (contoh: 'Lorem Ipsum').");
+                Console.Write("Masukkan Judul Film: ");
+                judulBaru_0508 = Console.ReadLine()!;
+            }
+
             // Pisahkan string film berdasarkan koma
             string[] bagianFilm = filmYangDipilih_0508.Split(',');
             // Ganti bagian judul dengan judul baru
@@ -347,32 +357,44 @@ class Program
         string tahunRilisInput_0508 = Console.ReadLine()!;
 
         // Jika input tidak kosong dan tidak hanya spasi, update tahun
-        if (tahunRilisInput_0508 != null && tahunRilisInput_0508.Trim() != "")
+        if (!string.IsNullOrWhiteSpace(tahunRilisInput_0508))
         {
-            try
+            int tahunRilis_0508;
+            bool tahunValid = false;
+
+            // Validasi tahun dengan while loop
+            while (!tahunValid)
             {
-            // Coba konversi input menjadi integer
-            int tahunRilis_0508 = int.Parse(tahunRilisInput_0508);
-            // Validasi tahun
-            if (tahunRilis_0508 > 1800 && tahunRilis_0508 <= DateTime.Now.Year)
-            {
-                // Pisahkan string film berdasarkan koma
-                string[] bagianFilm = filmYangDipilih_0508.Split(',');
-                // Ganti bagian tahun dengan tahun baru
-                bagianFilm[2] = $"Tahun: {tahunRilis_0508}";
-                // Gabungkan kembali string yang sudah dipisah
-                filmYangDipilih_0508 = string.Join(", ", bagianFilm);
-            }
-            else
-            {
-                // Tampilkan error jika tahun tidak valid
-                Console.WriteLine("Tahun rilis tidak valid. Masukkan tahun yang benar (misalnya: 1999).");
-            }
-            }
-            catch (FormatException)
-            {
-            // Tampilkan error jika tahun tidak valid
-            Console.WriteLine("Tahun rilis tidak valid. Masukkan tahun yang benar (misalnya: 1999).");
+                try
+                {
+                    // Coba konversi input menjadi integer
+                    tahunRilis_0508 = int.Parse(tahunRilisInput_0508);
+                    // Validasi tahun
+                    if (tahunRilis_0508 > 1800 && tahunRilis_0508 <= DateTime.Now.Year)
+                    {
+                        // Pisahkan string film berdasarkan koma
+                        string[] bagianFilm = filmYangDipilih_0508.Split(',');
+                        // Ganti bagian tahun dengan tahun baru
+                        bagianFilm[2] = $"Tahun: {tahunRilis_0508}";
+                        // Gabungkan kembali string yang sudah dipisah
+                        filmYangDipilih_0508 = string.Join(", ", bagianFilm);
+                        tahunValid = true;
+                    }
+                    else
+                    {
+                        // Tampilkan error jika tahun tidak valid
+                        Console.WriteLine("Tahun rilis tidak valid. Masukkan tahun yang benar (misalnya: 1999).");
+                        Console.Write("Masukkan Tahun Rilis Baru: ");
+                        tahunRilisInput_0508 = Console.ReadLine()!;
+                    }
+                }
+                catch (FormatException)
+                {
+                    // Tampilkan error jika tahun tidak valid
+                    Console.WriteLine("Tahun rilis tidak valid. Masukkan tahun yang benar (misalnya: 1999).");
+                    Console.Write("Masukkan Tahun Rilis Baru: ");
+                    tahunRilisInput_0508 = Console.ReadLine()!;
+                }
             }
         }
 
@@ -380,7 +402,7 @@ class Program
         // Update film di list dengan data yang sudah dimodifikasi
         films_0508[nomorFilm_0508 - 1] = filmYangDipilih_0508;
         Console.WriteLine("Data film berhasil diupdate.");
-        }
+    }
 
     static void HapusFilm()
     {
