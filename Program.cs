@@ -283,6 +283,35 @@ class Program
         string filmYangDipilih_0508 = films_0508[nomorFilm_0508 - 1];
         Console.WriteLine($"Film yang dipilih: {filmYangDipilih_0508}");
 
+        // Helper: parse film string menjadi bagian yang sudah di-trim dan aman
+        string[] ParseAndNormalize(string film)
+        {
+            // Pisahkan berdasarkan koma lalu trim setiap bagian
+            string[] parts = film.Split(',');
+            for (int i = 0; i < parts.Length; i++)
+            {
+                parts[i] = parts[i].Trim();
+            }
+            // Pastikan ada minimal 3 bagian: Judul, Genre, Tahun
+            if (parts.Length < 3)
+            {
+                Array.Resize(ref parts, 3);
+                for (int i = 0; i < parts.Length; i++)
+                {
+                    if (string.IsNullOrWhiteSpace(parts[i]))
+                    {
+                        if (i == 0) parts[i] = "Judul: ";
+                        else if (i == 1) parts[i] = "Genre: ";
+                        else parts[i] = "Tahun: ";
+                    }
+                }
+            }
+            return parts;
+        }
+
+        // Ambil bagian film yang sudah dinormalisasi
+        string[] bagianFilmSaatIni = ParseAndNormalize(filmYangDipilih_0508);
+
         // ===== UPDATE JUDUL =====
         Console.Write("Masukkan Judul Baru (kosongkan untuk tidak mengubah): ");
         string judulBaru_0508 = Console.ReadLine()!;
@@ -291,9 +320,9 @@ class Program
         if (!string.IsNullOrWhiteSpace(judulBaru_0508))
         {
             // Validasi judul dengan while loop
-            while (!string.IsNullOrWhiteSpace(judulBaru_0508) &&   // tetap cek hanya jika tidak kosong
-                   (judulBaru_0508 != judulBaru_0508.Trim() ||     // ada spasi di awal/akhir
-                    judulBaru_0508.Contains("  ")))                // ada double space
+            while (!string.IsNullOrWhiteSpace(judulBaru_0508) &&
+                   (judulBaru_0508 != judulBaru_0508.Trim() ||
+                    judulBaru_0508.Contains("  ")))
             {
                 Console.WriteLine("Judul film tidak valid. Gunakan format yang benar (contoh: 'Lorem Ipsum').");
                 Console.Write("Masukkan Judul Film (kosongkan untuk tidak mengubah): ");
@@ -309,12 +338,8 @@ class Program
             // Jika input valid (tidak kosong dan lolos validasi), update judul
             if (!string.IsNullOrWhiteSpace(judulBaru_0508))
             {
-                // Pisahkan string film berdasarkan koma
-                string[] bagianFilm = filmYangDipilih_0508.Split(',');
-                // Ganti bagian judul dengan judul baru
-                bagianFilm[0] = $"Judul: {judulBaru_0508}";
-                // Gabungkan kembali string yang sudah dipisah
-                filmYangDipilih_0508 = string.Join(", ", bagianFilm);
+                // Ganti bagian judul dengan judul baru (tanpa spasi ekstra)
+                bagianFilmSaatIni[0] = $"Judul: {judulBaru_0508.Trim()}";
             }
         }
 
@@ -345,14 +370,10 @@ class Program
                 // Cek apakah nomor genre valid (antara 1 dan jumlah genre)
                 if (nomorGenre_0508 >= 1 && nomorGenre_0508 <= genreFilm_0508.Count)
                 {
-                    // Ambil genre dari list berdasarkan nomor
-                    string genreBaru_0508 = genreFilm_0508[nomorGenre_0508 - 1];
-                    // Pisahkan string film berdasarkan koma
-                    string[] bagianFilm = filmYangDipilih_0508.Split(',');
-                    // Ganti bagian genre dengan genre baru
-                    bagianFilm[1] = $"Genre: {genreBaru_0508}";
-                    // Gabungkan kembali string yang sudah dipisah
-                    filmYangDipilih_0508 = string.Join(", ", bagianFilm);
+                    // Ambil genre dari list berdasarkan nomor dan trim untuk keamanan
+                    string genreBaru_0508 = genreFilm_0508[nomorGenre_0508 - 1].Trim();
+                    // Ganti bagian genre dengan genre baru (tanpa spasi ekstra)
+                    bagianFilmSaatIni[1] = $"Genre: {genreBaru_0508}";
                     break;
                 }
                 else
@@ -392,12 +413,8 @@ class Program
                     // Validasi tahun
                     if (tahunRilis_0508 > 1800 && tahunRilis_0508 <= DateTime.Now.Year)
                     {
-                        // Pisahkan string film berdasarkan koma
-                        string[] bagianFilm = filmYangDipilih_0508.Split(',');
-                        // Ganti bagian tahun dengan tahun baru
-                        bagianFilm[2] = $"Tahun: {tahunRilis_0508}";
-                        // Gabungkan kembali string yang sudah dipisah
-                        filmYangDipilih_0508 = string.Join(", ", bagianFilm);
+                        // Ganti bagian tahun dengan tahun baru (tanpa spasi ekstra)
+                        bagianFilmSaatIni[2] = $"Tahun: {tahunRilis_0508}";
                         tahunValid = true;
                     }
                     else
@@ -429,6 +446,9 @@ class Program
         }
 
         // ===== SIMPAN PERUBAHAN =====
+        // Gabungkan kembali string yang sudah dipisah dan di-trim dengan format konsisten
+        filmYangDipilih_0508 = $"{bagianFilmSaatIni[0].Trim()}, {bagianFilmSaatIni[1].Trim()}, {bagianFilmSaatIni[2].Trim()}";
+
         // Update film di list dengan data yang sudah dimodifikasi
         films_0508[nomorFilm_0508 - 1] = filmYangDipilih_0508;
         Console.WriteLine("Data film berhasil diupdate.");
