@@ -13,7 +13,14 @@ using System.Collections.Generic;
 class Program
 {
     // Koleksi film sebagai List statis yang menyimpan data film
-    static List<string> films_0508 = new List<string>();
+    static List<string> films_0508 = new List<string>
+    {
+        "Judul: The Matrix, Genre: Sci-Fi, Tahun: 1999",
+        "Judul: Ada Apa Dengan Cinta, Genre: Drama, Tahun: 2002",
+        "Judul: Pengabdi Setan, Genre: Horror, Tahun: 2017",
+        "Judul: Avengers: Endgame, Genre: Aksi, Tahun: 2019",
+        "Judul: Laskar Pelangi, Genre: Drama, Tahun: 2008"
+    };
 
     // Daftar genre film yang tersedia untuk dipilih pengguna
     static List<string> genreFilm_0508 = new List<string>
