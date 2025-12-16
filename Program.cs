@@ -21,11 +21,12 @@ class Program
 {
     static List<Film> films_0508 = new List<Film>
     {
-        new Film { Judul_05_08 = "The Matrix", Genre_05_08 = "Sci-Fi", Tahun_05_08 = 1999 },
+        new Film { Judul_05_08 = "Siksa Kubur", Genre_05_08 = "Horror", Tahun_05_08 = 2025 },
         new Film { Judul_05_08 = "Ada Apa Dengan Cinta", Genre_05_08 = "Drama", Tahun_05_08 = 2002 },
         new Film { Judul_05_08 = "Pengabdi Setan", Genre_05_08 = "Horror", Tahun_05_08 = 2017 },
         new Film { Judul_05_08 = "Avengers: Endgame", Genre_05_08 = "Aksi", Tahun_05_08 = 2019 },
-        new Film { Judul_05_08 = "Laskar Pelangi", Genre_05_08 = "Drama", Tahun_05_08 = 2008 }
+        new Film { Judul_05_08 = "Laskar Pelangi", Genre_05_08 = "Drama", Tahun_05_08 = 2008 },
+        new Film { Judul_05_08 = "G30S/PKI", Genre_05_08 = "Dokumenter", Tahun_05_08 = 1984 },
     };
 
     static List<string> genreFilm_0508 = new List<string>
@@ -101,11 +102,16 @@ class Program
             string judul_05_08;
             while (true)
             {
-                Console.Write("Judul: ");
+                Console.Write("\nMasukkan Judul: ");
                 judul_05_08 = Console.ReadLine()!;
-                if (string.IsNullOrWhiteSpace(judul_05_08))
+                if (string.IsNullOrWhiteSpace(judul_05_08) || judul_05_08.Length == 0)
                 {
                     Console.WriteLine("Judul tidak boleh kosong.");
+                    continue;
+                }
+                if (judul_05_08.Length > 30)
+                {
+                    Console.WriteLine("Judul terlalu panjang (maksimal 30 karakter).");
                     continue;
                 }
                 // Hilangkan spasi di awal/akhir dan spasi berlebih di tengah (tanpa regex, mudah dibaca)
@@ -114,37 +120,44 @@ class Program
                 {
                     judul_05_08 = judul_05_08.Replace("  ", " ");
                 }
-                if (judul_05_08.Length == 0)
-                {
-                    Console.WriteLine("Judul tidak boleh kosong.");
-                    continue;
-                }
                 break;
             }
 
             int genreIndex_05_08 = -1;
+
+            // tampilkan list genre SATU KALI
+            Console.WriteLine("\nDAFTAR GENRE:");
+            Console.WriteLine("+==========================+");
+            Console.WriteLine($"|| {"No",-3} || {"Genre",-15} ||");
+            Console.WriteLine("+==========================+");
+            for (int i = 0; i < genreFilm_0508.Count; i++)
+            {
+                Console.WriteLine($"|| {(i + 1) + ".",-3} || {genreFilm_0508[i],-15} ||");
+            }
+            Console.WriteLine("+==========================+");
+
+            // loop khusus validasi input
             while (true)
             {
-                Console.WriteLine("Pilih Genre:");
-                for (int i = 0; i < genreFilm_0508.Count; i++)
-                    Console.WriteLine($"{i + 1}. {genreFilm_0508[i]}");
-
                 Console.Write("Masukkan nomor genre: ");
                 string inputGenre_05_08 = Console.ReadLine()!;
+
                 if (int.TryParse(inputGenre_05_08, out genreIndex_05_08) &&
                     genreIndex_05_08 > 0 &&
                     genreIndex_05_08 <= genreFilm_0508.Count)
                 {
-                    genreIndex_05_08 -= 1;
+                    genreIndex_05_08 -= 1; // konversi ke index list
                     break;
                 }
-                Console.WriteLine("Input genre tidak valid.");
+
+                Console.WriteLine("Input genre tidak valid. Silakan masukkan ulang.");
             }
+
 
             int tahun_05_08;
             while (true)
             {
-                Console.Write("Tahun: ");
+                Console.Write("Masukkan Tahun: ");
                 string inputTahun_05_08 = Console.ReadLine()!;
                 if (int.TryParse(inputTahun_05_08, out tahun_05_08) && tahun_05_08 > 1800 && tahun_05_08 <= DateTime.Now.Year)
                     break;
