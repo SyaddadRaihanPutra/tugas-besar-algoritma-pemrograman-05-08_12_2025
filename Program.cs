@@ -12,8 +12,8 @@ using System.Collections.Generic;
 
 class Film
 {
-    public string Judul_05_08;
-    public string Genre_05_08;
+    public string Judul_05_08 = "";
+    public string Genre_05_08 = "";
     public int Tahun_05_08;
 }
 
@@ -40,18 +40,18 @@ class Program
             try
             {
                 Console.Clear();
-                Console.WriteLine("======================================="); 
-                Console.WriteLine("==| APLIKASI MANAJEMEN KOLEKSI FILM |=="); 
+                Console.WriteLine("=======================================");
+                Console.WriteLine("==| APLIKASI MANAJEMEN KOLEKSI FILM |==");
                 Console.WriteLine("======================================="); // Tampilkan menu pilihan_05_08 
-                Console.WriteLine("|| PILIH MENU                        ||"); 
-                Console.WriteLine("|| 1. Tambah Film                    ||"); 
-                Console.WriteLine("|| 2. Lihat Data Film                ||"); 
-                Console.WriteLine("|| 3. Update Data Film               ||"); 
-                Console.WriteLine("|| 4. Hapus Data Film                ||"); 
-                Console.WriteLine("|| 5. Cari Film (judul)              ||"); 
-                Console.WriteLine("|| 6. Filter berdasarkan Genre       ||"); 
-                Console.WriteLine("|| 0. Keluar                         ||"); 
-                Console.WriteLine("======================================="); 
+                Console.WriteLine("|| PILIH MENU                        ||");
+                Console.WriteLine("|| 1. Tambah Film                    ||");
+                Console.WriteLine("|| 2. Lihat Data Film                ||");
+                Console.WriteLine("|| 3. Update Data Film               ||");
+                Console.WriteLine("|| 4. Hapus Data Film                ||");
+                Console.WriteLine("|| 5. Cari Film (judul)              ||");
+                Console.WriteLine("|| 6. Filter berdasarkan Genre       ||");
+                Console.WriteLine("|| 0. Keluar                         ||");
+                Console.WriteLine("=======================================");
                 Console.Write("Ketik Nomor Menu (1/2/3/4/5/6/0): ");
 
                 int pilihan_05_08 = int.Parse(Console.ReadLine()!);
@@ -77,6 +77,7 @@ class Program
                         FilterGenre();
                         break;
                     case 0:
+                        Console.WriteLine("Terima kasih.");
                         return;
                     default:
                         Console.WriteLine("Pilihan tidak valid.");
@@ -97,23 +98,64 @@ class Program
     {
         try
         {
-            Console.Write("Judul: ");
-            string judul_05_08 = Console.ReadLine()!;
+            string judul_05_08;
+            while (true)
+            {
+                Console.Write("Judul: ");
+                judul_05_08 = Console.ReadLine()!;
+                if (string.IsNullOrWhiteSpace(judul_05_08))
+                {
+                    Console.WriteLine("Judul tidak boleh kosong.");
+                    continue;
+                }
+                // Hilangkan spasi di awal/akhir dan spasi berlebih di tengah (tanpa regex, mudah dibaca)
+                judul_05_08 = judul_05_08.Trim();
+                while (judul_05_08.Contains("  "))
+                {
+                    judul_05_08 = judul_05_08.Replace("  ", " ");
+                }
+                if (judul_05_08.Length == 0)
+                {
+                    Console.WriteLine("Judul tidak boleh kosong.");
+                    continue;
+                }
+                break;
+            }
 
-            Console.WriteLine("Pilih Genre:");
-            for (int i = 0; i < genreFilm_0508.Count; i++)
-            Console.WriteLine($"{i + 1}. {genreFilm_0508[i]}");
+            int genreIndex_05_08 = -1;
+            while (true)
+            {
+                Console.WriteLine("Pilih Genre:");
+                for (int i = 0; i < genreFilm_0508.Count; i++)
+                    Console.WriteLine($"{i + 1}. {genreFilm_0508[i]}");
 
-            int genreIndex_05_08 = int.Parse(Console.ReadLine()!) - 1;
+                Console.Write("Masukkan nomor genre: ");
+                string inputGenre_05_08 = Console.ReadLine()!;
+                if (int.TryParse(inputGenre_05_08, out genreIndex_05_08) &&
+                    genreIndex_05_08 > 0 &&
+                    genreIndex_05_08 <= genreFilm_0508.Count)
+                {
+                    genreIndex_05_08 -= 1;
+                    break;
+                }
+                Console.WriteLine("Input genre tidak valid.");
+            }
 
-            Console.Write("Tahun: ");
-            int tahun_05_08 = int.Parse(Console.ReadLine()!);
+            int tahun_05_08;
+            while (true)
+            {
+                Console.Write("Tahun: ");
+                string inputTahun_05_08 = Console.ReadLine()!;
+                if (int.TryParse(inputTahun_05_08, out tahun_05_08) && tahun_05_08 > 1800 && tahun_05_08 <= DateTime.Now.Year)
+                    break;
+                Console.WriteLine("Tahun tidak valid.");
+            }
 
             Film filmBaru = new Film
             {
-            Judul_05_08 = judul_05_08,
-            Genre_05_08 = genreFilm_0508[genreIndex_05_08],
-            Tahun_05_08 = tahun_05_08
+                Judul_05_08 = judul_05_08,
+                Genre_05_08 = genreFilm_0508[genreIndex_05_08],
+                Tahun_05_08 = tahun_05_08
             };
 
             films_0508.Add(filmBaru);
@@ -135,7 +177,7 @@ class Program
             Console.WriteLine("+======================================================================+");
             for (int i = 0; i < films_0508.Count; i++)
             {
-            Console.WriteLine($"|| {(i + 1) + ".",-3} || {films_0508[i].Judul_05_08,-30} || {films_0508[i].Genre_05_08,-15} || {films_0508[i].Tahun_05_08,-5} ||");
+                Console.WriteLine($"|| {(i + 1) + ".",-3} || {films_0508[i].Judul_05_08,-30} || {films_0508[i].Genre_05_08,-15} || {films_0508[i].Tahun_05_08,-5} ||");
             }
             Console.WriteLine("+======================================================================+");
         }
@@ -151,13 +193,76 @@ class Program
         {
             LihatFilm();
             Console.Write("Pilih nomor film: ");
-            int index_05_08 = int.Parse(Console.ReadLine()!) - 1;
+            string inputIndex_05_08 = Console.ReadLine()!;
+            if (string.IsNullOrWhiteSpace(inputIndex_05_08))
+            {
+                Console.WriteLine("Tidak ada perubahan.");
+                return;
+            }
+            int index_05_08 = int.Parse(inputIndex_05_08) - 1;
+            if (index_05_08 < 0 || index_05_08 >= films_0508.Count)
+            {
+                Console.WriteLine("Nomor film tidak valid.");
+                return;
+            }
 
-            Console.Write("Judul_05_08 baru: ");
-            films_0508[index_05_08].Judul_05_08 = Console.ReadLine()!;
+            // Judul baru
+            Console.Write($"Judul baru (Enter untuk tidak mengubah, sekarang: {films_0508[index_05_08].Judul_05_08}): ");
+            string judulBaru_05_08 = Console.ReadLine()!;
+            if (!string.IsNullOrWhiteSpace(judulBaru_05_08))
+            {
+                // Hilangkan spasi di awal/akhir dan spasi berlebih di tengah (tanpa regex, mudah dibaca)
+                judulBaru_05_08 = judulBaru_05_08.Trim();
+                while (judulBaru_05_08.Contains("  "))
+                {
+                    judulBaru_05_08 = judulBaru_05_08.Replace("  ", " ");
+                }
+                if (judulBaru_05_08.Length == 0)
+                {
+                    Console.WriteLine("Judul tidak boleh kosong. Judul tidak diubah.");
+                }
+                else
+                {
+                    films_0508[index_05_08].Judul_05_08 = judulBaru_05_08;
+                }
+            }
 
-            Console.Write("Tahun_05_08 baru: ");
-            films_0508[index_05_08].Tahun_05_08 = int.Parse(Console.ReadLine()!);
+            // Genre baru
+            Console.WriteLine("Pilih Genre baru (Enter untuk tidak mengubah):");
+            for (int i = 0; i < genreFilm_0508.Count; i++)
+                Console.WriteLine($"{i + 1}. {genreFilm_0508[i]}");
+            Console.Write($"Masukkan nomor genre (sekarang: {films_0508[index_05_08].Genre_05_08}): ");
+            string inputGenre = Console.ReadLine()!;
+            if (!string.IsNullOrWhiteSpace(inputGenre))
+            {
+                int genreIndexBaru_05_08;
+                if (int.TryParse(inputGenre, out genreIndexBaru_05_08) &&
+                    genreIndexBaru_05_08 > 0 &&
+                    genreIndexBaru_05_08 <= genreFilm_0508.Count)
+                {
+                    films_0508[index_05_08].Genre_05_08 = genreFilm_0508[genreIndexBaru_05_08 - 1];
+                }
+                else
+                {
+                    Console.WriteLine("Input genre tidak valid. Genre tidak diubah.");
+                }
+            }
+
+            // Tahun baru
+            Console.Write($"Tahun baru (Enter untuk tidak mengubah, sekarang: {films_0508[index_05_08].Tahun_05_08}): ");
+            string inputTahun_05_08 = Console.ReadLine()!;
+            if (!string.IsNullOrWhiteSpace(inputTahun_05_08))
+            {
+                int tahunBaru;
+                if (int.TryParse(inputTahun_05_08, out tahunBaru) && tahunBaru > 1800 && tahunBaru <= DateTime.Now.Year)
+                {
+                    films_0508[index_05_08].Tahun_05_08 = tahunBaru;
+                }
+                else
+                {
+                    Console.WriteLine("Tahun tidak valid. Tahun tidak diubah.");
+                }
+            }
 
             Console.WriteLine("Data film berhasil diupdate.");
         }
@@ -174,6 +279,20 @@ class Program
             LihatFilm();
             Console.Write("Pilih nomor film: ");
             int index_05_08 = int.Parse(Console.ReadLine()!) - 1;
+            if (index_05_08 < 0 || index_05_08 >= films_0508.Count)
+            {
+                Console.WriteLine("Nomor film tidak valid.");
+                return;
+            }
+
+            // Konfirmasi penghapusan
+            Console.Write($"Apakah yakin ingin menghapus film '{films_0508[index_05_08].Judul_05_08}'? (y/n): ");
+            string konfirmasi = Console.ReadLine()!.ToLower();
+            if (konfirmasi != "y")
+            {
+                Console.WriteLine("Film batal dihapus.");
+                return;
+            }
 
             films_0508.RemoveAt(index_05_08);
             Console.WriteLine("Film berhasil dihapus.");
@@ -188,22 +307,28 @@ class Program
     {
         try
         {
-            Console.Write("Cari judul_05_08: ");
+            Console.Write("Cari judul: ");
             string katakunci_05_08 = Console.ReadLine()!.ToLower();
 
             bool ditemukan = false;
-            foreach (Film f in films_0508)
+            Console.WriteLine("\nDAFTAR FILM:");
+            Console.WriteLine("+======================================================================+");
+            Console.WriteLine($"|| {"No",-3} || {"Judul",-30} || {"Genre",-15} || {"Tahun",-5} ||");
+            Console.WriteLine("+======================================================================+");
+            for (int i = 0; i < films_0508.Count; i++)
             {
-            if (f.Judul_05_08.ToLower().Contains(katakunci_05_08))
-            {
-                Console.WriteLine($"{f.Judul_05_08} | {f.Genre_05_08} | {f.Tahun_05_08}");
-                ditemukan = true;
-            }
+                Film f = films_0508[i];
+                if (f.Judul_05_08.ToLower().Contains(katakunci_05_08))
+                {
+                    Console.WriteLine($"|| {(i + 1) + ".",-3} || {f.Judul_05_08,-30} || {f.Genre_05_08,-15} || {f.Tahun_05_08,-5} ||");
+                    ditemukan = true;
+                }
             }
             if (!ditemukan)
             {
-            Console.WriteLine("Film tidak ditemukan.");
+                Console.WriteLine("|| Film tidak ditemukan.");
             }
+            Console.WriteLine("+======================================================================+");
         }
         catch (Exception ex)
         {
@@ -215,26 +340,33 @@ class Program
     {
         try
         {
-            Console.WriteLine("Pilih Genre_05_08:");
+            Console.WriteLine("\nPilih Genre:");
             for (int i = 0; i < genreFilm_0508.Count; i++)
-            Console.WriteLine($"{i + 1}. {genreFilm_0508[i]}");
+                Console.WriteLine($"{i + 1}. {genreFilm_0508[i]}");
 
+            Console.Write("Masukkan nomor genre: ");
             int index_05_08 = int.Parse(Console.ReadLine()!) - 1;
             string genre_05_08 = genreFilm_0508[index_05_08];
 
             bool ditemukan = false;
-            foreach (Film f in films_0508)
+            Console.WriteLine("\nFILTER FILM BERDASARKAN GENRE:");
+            Console.WriteLine("+======================================================================+");
+            Console.WriteLine($"|| {"No",-3} || {"Judul",-30} || {"Genre",-15} || {"Tahun",-5} ||");
+            Console.WriteLine("+======================================================================+");
+            for (int i = 0; i < films_0508.Count; i++)
             {
-            if (f.Genre_05_08 == genre_05_08)
-            {
-                Console.WriteLine($"{f.Judul_05_08} | {f.Tahun_05_08}");
-                ditemukan = true;
-            }
+                Film f = films_0508[i];
+                if (f.Genre_05_08 == genre_05_08)
+                {
+                    Console.WriteLine($"|| {(i + 1) + ".",-3} || {f.Judul_05_08,-30} || {f.Genre_05_08,-15} || {f.Tahun_05_08,-5} ||");
+                    ditemukan = true;
+                }
             }
             if (!ditemukan)
             {
-            Console.WriteLine("Tidak ada film dengan genre tersebut.");
+                Console.WriteLine("Tidak ada film dengan genre tersebut.");
             }
+            Console.WriteLine("+======================================================================+");
         }
         catch (Exception ex)
         {
