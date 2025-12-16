@@ -234,6 +234,10 @@ class Program
                 {
                     Console.WriteLine("Judul tidak boleh kosong. Judul tidak diubah.");
                 }
+                else if (judulBaru_05_08.Length > 30)
+                {
+                    Console.WriteLine("Judul terlalu panjang (maksimal 30 karakter). Judul tidak diubah.");
+                }
                 else
                 {
                     films_0508[index_05_08].Judul_05_08 = judulBaru_05_08;
