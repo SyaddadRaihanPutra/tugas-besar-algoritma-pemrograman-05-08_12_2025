@@ -1,0 +1,162 @@
+CLASS Film
+    Judul : string
+    Genre : string
+    Tahun : integer
+END CLASS
+
+
+PROGRAM ManajemenFilm
+
+DEKLARASI
+    LIST films ← data film awal
+    LIST genreFilm ← ["Aksi", "Komedi", "Drama", "Horror", "Romantis", "Sci-Fi", "Dokumenter"]
+
+
+ALGORITMA
+    LOOP selamanya
+        Tampilkan judul aplikasi
+        Tampilkan menu:
+            1. Tambah Film
+            2. Lihat Data Film
+            3. Update Data Film
+            4. Hapus Data Film
+            5. Cari Film
+            6. Filter berdasarkan Genre
+            0. Keluar
+
+        INPUT pilihan
+
+        IF pilihan = 1 THEN
+            // TAMBAH FILM
+            LOOP
+                INPUT judul
+                IF judul kosong ATAU panjang > 30 THEN
+                    Tampilkan error
+                ELSE
+                    Rapikan spasi judul
+                    BREAK
+                END IF
+            END LOOP
+
+            Tampilkan daftar genre
+            LOOP
+                INPUT nomorGenre
+                IF nomorGenre valid THEN
+                    genreDipilih ← genreFilm[nomorGenre - 1]
+                    BREAK
+                ELSE
+                    Tampilkan error
+                END IF
+            END LOOP
+
+            LOOP
+                INPUT tahun
+                IF tahun valid THEN
+                    BREAK
+                ELSE
+                    Tampilkan error
+                END IF
+            END LOOP
+
+            Tambahkan Film(judul, genreDipilih, tahun) ke films
+            Tampilkan pesan sukses
+
+
+        ELSE IF pilihan = 2 THEN
+            // LIHAT FILM
+            FOR setiap film dalam films
+                Tampilkan nomor, judul, genre, tahun
+            END FOR
+
+
+        ELSE IF pilihan = 3 THEN
+            // UPDATE FILM
+            Tampilkan daftar film
+            INPUT nomorFilm
+            IF nomorFilm tidak valid THEN
+                Tampilkan error
+            ELSE
+                INPUT judulBaru
+                IF judulBaru tidak kosong DAN valid THEN
+                    Update judul
+                END IF
+
+                Tampilkan daftar genre
+                INPUT genreBaru
+                IF genreBaru valid THEN
+                    Update genre
+                END IF
+
+                INPUT tahunBaru
+                IF tahunBaru valid THEN
+                    Update tahun
+                END IF
+
+                Tampilkan pesan sukses
+            END IF
+
+
+        ELSE IF pilihan = 4 THEN
+            // HAPUS FILM
+            Tampilkan daftar film
+            INPUT nomorFilm
+            IF nomorFilm valid THEN
+                INPUT konfirmasi
+                IF konfirmasi = "y" THEN
+                    Hapus film dari films
+                    Tampilkan pesan sukses
+                ELSE
+                    Tampilkan batal
+                END IF
+            ELSE
+                Tampilkan error
+            END IF
+
+
+        ELSE IF pilihan = 5 THEN
+            // CARI FILM
+            INPUT kataKunci
+            ditemukan ← FALSE
+            FOR setiap film dalam films
+                IF judul mengandung kataKunci THEN
+                    Tampilkan film
+                    ditemukan ← TRUE
+                END IF
+            END FOR
+            IF ditemukan = FALSE THEN
+                Tampilkan "Film tidak ditemukan"
+            END IF
+
+
+        ELSE IF pilihan = 6 THEN
+            // FILTER GENRE
+            Tampilkan daftar genre
+            INPUT nomorGenre
+            genreDipilih ← genreFilm[nomorGenre - 1]
+            ditemukan ← FALSE
+
+            FOR setiap film dalam films
+                IF genre film = genreDipilih THEN
+                    Tampilkan film
+                    ditemukan ← TRUE
+                END IF
+            END FOR
+
+            IF ditemukan = FALSE THEN
+                Tampilkan "Tidak ada film dengan genre tersebut"
+            END IF
+
+
+        ELSE IF pilihan = 0 THEN
+            Tampilkan "Terima kasih"
+            STOP PROGRAM
+
+
+        ELSE
+            Tampilkan "Pilihan tidak valid"
+        END IF
+
+        Tunggu Enter
+    END LOOP
+
+END PROGRAM
