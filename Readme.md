@@ -1,8 +1,8 @@
 Kelompok 05_08:
-1. Syaddad Raihan Putra — 102042500079 (PJ)
-2. Faishal Hafizh Alfario — 102042500001
-3. Panji Dwi Bayu Prakoso — 102042500039
-4. Qonita Najiah — 102042530016
+1. Syaddad Raihan Putra - 102042500079 (PJ)
+2. Faishal Hafizh Alfario - 102042500001
+3. Panji Dwi Bayu Prakoso - 102042500039
+4. Qonita Najiah - 102042530016
 
 
 # Deskripsi Proyek
